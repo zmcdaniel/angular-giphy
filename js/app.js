@@ -1,23 +1,22 @@
 angular.module('GiphyApp', [])
 
-    .run(function() {
-        console.log('App has loaded!');
-    })
-
     .controller('GiphyCtrl', ['$scope', '$http', function($scope, $http) {
 
         $scope.searchTerm = '';
+        $scope.gifArray = [];
 
         $scope.search = function() {
             var request = {
-                url: '',
+                url: 'http://api.giphy.com/v1/gifs/search?',
                 method: 'GET',
                 params: {
-                    q: $scope.searchTerm
+                    q: $scope.searchTerm,
+                    api_key: 'dc6zaTOxFJmzC'
                 }
             }
             $http(request).then(function success(response) {
-                console.log(response);
+                $scope.gifArray = response.data.data;
+                console.log(response.data.data);
             }, function error(response) {
                 console.log(response);
             });
@@ -25,4 +24,7 @@ angular.module('GiphyApp', [])
 
 
 
-    }]);
+    }])
+    .run(function() {
+        console.log('App has loaded!');
+    });
